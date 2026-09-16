@@ -1,0 +1,31 @@
+# Segredos - NUNCA commitar
+.env
+service_account.json
+**/service_account.json
+**/TESTE/service_account.json
+
+# Logs e estado local
+*.log
+bot_neo.log
+estado_dia.json
+processed_folders.json
+dados.json
+cnpjs_vistos.xlsx
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+downloads/
+TESTE/data/
+data/
+
+# Sistema / IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Docker (mantém .env fora da imagem se usar --env-file)

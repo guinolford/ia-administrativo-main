@@ -1,0 +1,67 @@
+BOT de Automação de Processo Repetitivo de Cadastro de Cliente no NEO, envio de dados para Planilhas e notificação em tempo real.
+
+Este bot integra PipeRun → Google Sheets → NEO → {Telegram}, automatizando o fluxo de trabalho comercial e garantindo que cada oportunidade siga corretamente para o próximo estágio ou para tratamento de erro.
+
+Ele:
+
+1-Busca cards no PipeRun em um estágio inicial.
+
+2-Valida os dados com a BrasilAPI (CNPJ, Razão Social, Situação Cadastral).
+
+3-Envia os dados corretos para a planilha do consultor no Google Sheets.
+
+4-Registra a oportunidade no NEO.
+
+5-Notifica automaticamente o responsável no Telegram.
+
+6-Move a oportunidade para sucesso ou erro no PipeRun, conforme o caso.
+
+7-Registra logs automáticos por dia para auditoria.
+
+[    A[Buscar cards no PipeRun] --> B[Validar com BrasilAPI]
+    B -->|Erro encontrado| C[Enviar para estágio de Erro no PipeRun]
+    B -->|Validação OK| D[Enviar para Google Sheets]
+    D -->|Falha| C
+    D -->|Sucesso| E[Enviar para NEO]
+    E -->|Falha| C
+    E -->|Sucesso| F[Enviar notificação no Telegram]
+    F --> G[Mover para estágio Final no PipeRun]
+    ]
+
+ ### Pré-requisitos ###
+
+Configurar:
+
+ Python 3.8+
+
+Bibliotecas: Instaladas via requirements.txt
+
+Token do PipeRun (variável PIPE_TOKEN no código)
+
+Token do Telegram (variável TELEGRAM_TOKEN no código)
+
+Token do NEO (campo "token" no neo_payload)
+
+Credenciais de acesso ao Google Sheets (service_account.json obtido no Google Cloud Console)
+
+Configurar consultores e planilhas no dicionário consultores_planilhas
+
+Configurar IDs de Telegram no dicionário RESPONSAVEIS
+
+### Logs
+
+Depois de rodar o bot, todos os prints e erros são impressos para audiotira num arquivo .txt na pasta "logs".
+Cada .txt pertence às atividades de um dia específico (dd-mm-aaaa) e nos ajudam a rastrear erros e envios.
+
+### Notificações
+
+Ao finalizar com sucesso, o bot envia uma notificação ao responsável pelo consultor, que é dono da oportunidade,
+afim de tornar o funcionamento mais dinâmico e agilizar a rotina do Administrativo. 
+Esta notificação atualmente está sendo feita mediante o bot @OMNI_Ntfy_bot, do Telegram, e envia dados como o nome do
+Consultor, CNPJ e o nome do Cliente. 
+
+
+---
+
+Ele também possui uma integração para o funcionamento numa imagem de docker
+
